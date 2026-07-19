@@ -1,0 +1,22 @@
+.skin-d { position: relative; width: 170px; height: 190px; padding: 8px 12px 12px 4px; }
+.skin-d .win { width: 150px; box-shadow: 4px 4px 0 0 var(--maroon); cursor: pointer; }
+.skin-d .titlebar { background: var(--yellow); justify-content: center; cursor: default; }
+.skin-d .titlebar-text { margin: 0; }
+.skin-d .hg {
+  margin: 14px auto 8px; width: 40px;
+  animation: flip 4s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.skin-d .hg.running { animation-play-state: running; }
+@keyframes flip {
+  0%, 42% { transform: rotate(0deg); }
+  50%, 92% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+.skin-d .cap { height: 6px; background: var(--orange); border: 2px solid var(--maroon); border-radius: 3px; }
+.skin-d .glass {
+  width: 28px; height: 34px; margin: 0 auto;
+  background: var(--blue);
+  clip-path: polygon(0 0, 100% 0, 58% 50%, 100% 100%, 0 100%, 42% 50%);
+}
+.skin-d .timer-digits { font-size: 24px; text-align: center; display: block; margin-bottom: 12px; }

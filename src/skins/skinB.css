@@ -1,0 +1,26 @@
+.skin-b { position: relative; width: 250px; height: 180px; padding: 6px 26px 26px 4px; }
+.skin-b .win {
+  width: 220px;
+  text-align: center;
+  animation: stackpulse 3s ease-in-out infinite;
+}
+@keyframes stackpulse {
+  0%, 100% { box-shadow: 6px 6px 0 -2px var(--paper), 6px 6px 0 0 var(--maroon), 12px 12px 0 -2px var(--paper), 12px 12px 0 0 var(--maroon), 18px 18px 0 -2px var(--paper), 18px 18px 0 0 var(--maroon); }
+  50% { box-shadow: 5px 5px 0 -2px var(--paper), 5px 5px 0 0 var(--maroon), 11px 11px 0 -2px var(--paper), 11px 11px 0 0 var(--maroon), 16px 16px 0 -2px var(--paper), 16px 16px 0 0 var(--maroon); }
+}
+.skin-b .titlebar { background: var(--orange); justify-content: flex-end; }
+.skin-b .xbox {
+  width: 14px; height: 14px;
+  border: 2px solid var(--maroon); border-radius: 3px;
+  background: var(--paper);
+  font-size: 9px; font-weight: bold; line-height: 10px;
+  text-align: center;
+}
+.skin-b .msg {
+  font-size: 10px; font-weight: bold;
+  letter-spacing: 2px;
+  margin: 14px 8px 6px;
+  min-height: 12px;
+}
+.skin-b .timer-digits { font-size: 34px; }
+.skin-b .sure { background: var(--orange); color: var(--paper); margin: 12px 0 16px; }

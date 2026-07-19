@@ -2,11 +2,13 @@ import { useState, type ComponentType } from 'react';
 import { useTimer } from './hooks/useTimer';
 import { loadSettings, saveSettings, type Settings, type Skin } from './store/settings';
 import type { SkinProps } from './skins/types';
-
-const Placeholder = ({ remainingSec }: SkinProps) => <div>{remainingSec}</div>;
+import { SkinA } from './skins/SkinA';
+import { SkinB } from './skins/SkinB';
+import { SkinC } from './skins/SkinC';
+import { SkinD } from './skins/SkinD';
 
 export const skinComponents: Record<Skin, ComponentType<SkinProps>> = {
-  A: Placeholder, B: Placeholder, C: Placeholder, D: Placeholder,
+  A: SkinA, B: SkinB, C: SkinC, D: SkinD,
 };
 
 export default function App() {
