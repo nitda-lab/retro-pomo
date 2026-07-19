@@ -1,5 +1,7 @@
-import { useState, type ComponentType } from 'react';
+import { useEffect, useRef, useState, type ComponentType } from 'react';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useTimer } from './hooks/useTimer';
+import { showContextMenu } from './window/menu';
 import { loadSettings, saveSettings, type Settings, type Skin } from './store/settings';
 import type { SkinProps } from './skins/types';
 import { SkinA } from './skins/SkinA';
@@ -25,6 +27,33 @@ export default function App() {
       return next;
     });
   };
+
+  // メニューのstale closure回避用の最新値参照
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
+  const timerRef = useRef(timer);
+  timerRef.current = timer;
+  const updateRef = useRef(update);
+  updateRef.current = update;
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      e.preventDefault();
+      void showContextMenu({
+        settings: settingsRef.current,
+        onSkin: skin => updateRef.current({ skin }),
+        onReset: () => timerRef.current.reset(),
+        onToggleAot: () => {
+          const next = !settingsRef.current.alwaysOnTop;
+          updateRef.current({ alwaysOnTop: next });
+          void getCurrentWindow().setAlwaysOnTop(next);
+        },
+        onSettings: () => setView('settings'),
+      });
+    };
+    window.addEventListener('contextmenu', handler);
+    return () => window.removeEventListener('contextmenu', handler);
+  }, []);
 
   return (
     <div className="scale-root" style={{ transform: `scale(${settings.scale})` }}>
