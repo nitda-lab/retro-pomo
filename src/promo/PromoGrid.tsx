@@ -74,7 +74,6 @@ export function PromoGrid() {
         <div className="promo-grid">
           <SkinCells />
         </div>
-        <AlwaysOnTopShot />
       </div>
     </div>
   );
