@@ -17,7 +17,7 @@ export function SkinC({ phase, remainingSec, totalSec, isRunning, onToggle }: Sk
           <div className="track"><div className="fill" style={{ width: `${progress}%` }} /></div>
         </div>
         <div className="caption">
-          {caption}<span className="cursor">_</span>
+          {caption}<span className={isRunning ? 'cursor blinking' : 'cursor'}>_</span>
         </div>
       </div>
     </div>

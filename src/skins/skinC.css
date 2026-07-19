@@ -15,4 +15,5 @@
   transition: width 0.9s steps(3, end);
 }
 .skin-c .caption { font-size: 9px; padding: 0 16px 8px; font-weight: bold; }
-.skin-c .cursor { animation: blink 1s steps(1) infinite; }
+/* カーソルは動作中のみ点滅(停止中は静止 = 止まっていることの合図) */
+.skin-c .cursor.blinking { animation: blink 1s steps(1) infinite; }
