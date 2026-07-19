@@ -12,6 +12,9 @@ export const BASE: Record<Skin, { w: number; h: number }> = {
 /** 設定ビュー表示時のウィンドウサイズ(scale=1) */
 export const SETTINGS_SIZE = { w: 250, h: 200 };
 
+/** 終了確認ビュー表示時のウィンドウサイズ(scale=1) */
+export const CONFIRM_SIZE = { w: 250, h: 130 };
+
 const clamp = (v: number) => Math.min(2, Math.max(0.75, v));
 
 export async function setWindowSize(base: { w: number; h: number }, scale: number): Promise<void> {

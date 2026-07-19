@@ -30,6 +30,7 @@ export async function showContextMenu(opts: {
   onToggleAot(): void;
   onSettings(): void;
   onLang(lang: Lang): void;
+  onQuit(): void;
 }): Promise<void> {
   const win = getCurrentWindow();
   const t = T[opts.settings.lang];
@@ -62,7 +63,7 @@ export async function showContextMenu(opts: {
       await Submenu.new({ text: t.language, items: langItems }),
       await PredefinedMenuItem.new({ item: 'Separator' }),
       await MenuItem.new({ text: t.minimize, action: () => void win.minimize() }),
-      await MenuItem.new({ text: t.quit, action: () => void win.close() }),
+      await MenuItem.new({ text: t.quit, action: opts.onQuit }),
     ],
   });
   await menu.popup();

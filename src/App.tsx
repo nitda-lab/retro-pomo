@@ -3,9 +3,10 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useTimer } from './hooks/useTimer';
 import { showContextMenu } from './window/menu';
 import {
-  applyWindowForSkin, beginCornerResize, CORNERS, restorePosition,
+  applyWindowForSkin, beginCornerResize, CONFIRM_SIZE, CORNERS, restorePosition,
   setWindowSize, SETTINGS_SIZE, watchWindowMove,
 } from './window/scale';
+import { ConfirmQuit } from './quit/ConfirmQuit';
 import { loadSettings, saveSettings, type Settings, type Skin } from './store/settings';
 import type { SkinProps } from './skins/types';
 import { SkinA } from './skins/SkinA';
@@ -27,14 +28,17 @@ const promoMode = !inTauri && typeof window !== 'undefined'
   ? new URLSearchParams(location.search).get('promo')
   : null;
 
-/** ブラウザ確認用: ?skin=B / ?view=settings で初期表示を切替(Tauri内では無視) */
-function devOverrides(): { skin?: Skin; view?: 'settings' } {
+type View = 'timer' | 'settings' | 'confirm-quit';
+
+/** ブラウザ確認用: ?skin=B / ?view=settings|confirm で初期表示を切替(Tauri内では無視) */
+function devOverrides(): { skin?: Skin; view?: View } {
   if (inTauri) return {};
   const p = new URLSearchParams(location.search);
   const skin = p.get('skin');
+  const view = p.get('view');
   return {
     skin: skin && ['A', 'B', 'C', 'D'].includes(skin) ? (skin as Skin) : undefined,
-    view: p.get('view') === 'settings' ? 'settings' : undefined,
+    view: view === 'settings' ? 'settings' : view === 'confirm' ? 'confirm-quit' : undefined,
   };
 }
 
@@ -44,7 +48,7 @@ export default function App() {
     const o = devOverrides();
     return o.skin ? { ...s, skin: o.skin } : s;
   });
-  const [view, setView] = useState<'timer' | 'settings'>(() => devOverrides().view ?? 'timer');
+  const [view, setView] = useState<View>(() => devOverrides().view ?? 'timer');
   /** 四隅ドラッグ中の一時スケール(確定時に settings.scale へ保存) */
   const [liveScale, setLiveScale] = useState<number | null>(null);
   const timer = useTimer(settings);
@@ -81,6 +85,11 @@ export default function App() {
         },
         onSettings: () => setView('settings'),
         onLang: lang => updateRef.current({ lang }),
+        onQuit: () => {
+          // 動作中のみ確認を挟む(停止中は即終了)
+          if (timerRef.current.isRunning) setView('confirm-quit');
+          else void getCurrentWindow().close();
+        },
       });
     };
     window.addEventListener('contextmenu', handler);
@@ -104,6 +113,8 @@ export default function App() {
     if (!inTauri) return;
     if (view === 'settings') {
       void setWindowSize(SETTINGS_SIZE, settings.scale);
+    } else if (view === 'confirm-quit') {
+      void setWindowSize(CONFIRM_SIZE, settings.scale);
     } else {
       void applyWindowForSkin(settings.skin, settings.scale);
     }
@@ -115,7 +126,12 @@ export default function App() {
 
   return (
     <div className="scale-root" style={{ transform: `scale(${liveScale ?? settings.scale})` }}>
-      {view === 'settings' ? (
+      {view === 'confirm-quit' ? (
+        <ConfirmQuit
+          onQuit={() => void getCurrentWindow().close()}
+          onCancel={() => setView('timer')}
+        />
+      ) : view === 'settings' ? (
         <SettingsView settings={settings} onSave={update} onClose={() => setView('timer')} />
       ) : (
         <div className="widget-wrap">

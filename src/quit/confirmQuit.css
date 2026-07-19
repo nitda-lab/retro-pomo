@@ -1,0 +1,9 @@
+.confirm-quit { position: relative; width: 250px; padding: 2px 8px 8px 2px; }
+.confirm-quit .win { width: 240px; box-shadow: 4px 4px 0 0 var(--maroon); text-align: center; }
+.confirm-quit .titlebar { background: var(--orange); justify-content: center; }
+.confirm-quit .msg {
+  font-size: 10px; font-weight: bold; letter-spacing: 1.5px;
+  margin: 16px 10px 12px;
+}
+.confirm-quit .btns { display: flex; gap: 10px; justify-content: center; padding-bottom: 14px; }
+.confirm-quit .quit { background: var(--orange); color: var(--paper); }
