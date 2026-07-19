@@ -55,12 +55,11 @@ export function PromoGrid() {
           <div className="retro-win shot-win">
             <div className="titlebar">
               <TitleDots />
-              <span className="titlebar-text">ALWAYS ON TOP</span>
+              <span className="titlebar-text">YOU CAN SEE IT ANYTIME</span>
             </div>
             <img src={shot} alt="Unityでの作業中も最前面に表示されるretro-pomo" />
           </div>
           <figcaption className="promo-tag">ALWAYS ON TOP</figcaption>
-          <p className="promo-note">どんな作業画面でも、いちばん手前に固定表示</p>
         </figure>
       </div>
     </div>
