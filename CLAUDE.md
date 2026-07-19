@@ -21,7 +21,7 @@
 
 - **`scale.ts` の `BASE` と各 `skinX.css` のルート要素 width/height は必ず一致させる**(ズレると透過余白や見切れが出る)
 - デザイントークン(色/フォント)は `src/styles.css` の CSS 変数のみ使う。影はべた塗りオフセット、ぼかし禁止。絵文字不使用(モチーフは CSS 描画)
-- コピー文言は固定: B作業中 `DON'T THINK OF OTHER THINGS` / B休憩中 `TEA TIME!` / C作業中 `Focus is Loading_` / C休憩中 `TEA TIME_`
+- コピー文言は固定: B作業中 `DON'T THINK OF OTHER THINGS` / B休憩中 `TEA TIME!` / C作業中 `Focus is Loading_` / C休憩中 `TEA TIME_` / C停止中 `Click for Focus_`
 - Windows 通知は出さない(フェーズ切替は WebAudio チャイムのみ)
 - Tauri API 呼び出しは `inTauri` ガード必須(ブラウザでの見た目確認 `bun run dev` + `?skin=B` / `?view=settings` を壊さない)
 - 権限追加時は `src-tauri/capabilities/default.json` に明示
