@@ -1,0 +1,53 @@
+/* 宣伝画像用グリッド(ブラウザ ?promo=1 専用)。キャプチャが安定するようアニメは無効化 */
+.promo * { animation: none !important; }
+
+.promo {
+  width: 1240px;
+  height: 980px;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.promo-inner {
+  transform: scale(2);
+  transform-origin: top left;
+  width: 620px;
+  height: 490px;
+  padding: 26px 30px;
+  position: relative;
+}
+.promo-head { display: flex; align-items: baseline; gap: 14px; }
+.promo-title {
+  font-size: 30px; font-weight: bold; letter-spacing: 5px; color: var(--maroon);
+}
+.promo-sub { font-size: 10px; font-weight: bold; color: var(--maroon); letter-spacing: 1px; }
+.promo-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px 28px;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  margin-top: 8px;
+}
+.promo-grid figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.promo-tag {
+  border: 2px solid var(--maroon); border-radius: 999px;
+  background: var(--paper);
+  padding: 2px 14px;
+  font-size: 9px; font-weight: bold; letter-spacing: 2px; color: var(--maroon);
+  box-shadow: 2px 2px 0 var(--maroon);
+}
+/* stackpulse無効化でBの残像が消えるため、0%フレーム相当を静的に付与 */
+.promo .skin-b .win {
+  box-shadow:
+    6px 6px 0 -2px var(--paper), 6px 6px 0 0 var(--maroon),
+    12px 12px 0 -2px var(--paper), 12px 12px 0 0 var(--maroon),
+    18px 18px 0 -2px var(--paper), 18px 18px 0 0 var(--maroon);
+}
+/* 参考画像風の飾り(4芒星) */
+.promo-star {
+  position: absolute;
+  background: var(--yellow);
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+}

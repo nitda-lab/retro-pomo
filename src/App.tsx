@@ -13,6 +13,7 @@ import { SkinB } from './skins/SkinB';
 import { SkinC } from './skins/SkinC';
 import { SkinD } from './skins/SkinD';
 import { SettingsView } from './settings/SettingsView';
+import { PromoGrid } from './promo/PromoGrid';
 
 export const skinComponents: Record<Skin, ComponentType<SkinProps>> = {
   A: SkinA, B: SkinB, C: SkinC, D: SkinD,
@@ -20,6 +21,10 @@ export const skinComponents: Record<Skin, ComponentType<SkinProps>> = {
 
 /** Tauri外(ブラウザでのUI確認)ではウィンドウ操作をスキップ */
 const inTauri = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+
+/** 宣伝画像生成用: ブラウザで ?promo=1 */
+const promoMode = !inTauri && typeof window !== 'undefined'
+  && new URLSearchParams(location.search).get('promo') === '1';
 
 /** ブラウザ確認用: ?skin=B / ?view=settings で初期表示を切替(Tauri内では無視) */
 function devOverrides(): { skin?: Skin; view?: 'settings' } {
@@ -102,6 +107,8 @@ export default function App() {
       void applyWindowForSkin(settings.skin, settings.scale);
     }
   }, [settings.skin, view]);
+
+  if (promoMode) return <PromoGrid />;
 
   return (
     <div className="scale-root" style={{ transform: `scale(${liveScale ?? settings.scale})` }}>
