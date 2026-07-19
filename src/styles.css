@@ -1,0 +1,16 @@
+:root {
+  --cream: #EFE5D8;
+  --paper: #F8F1E7;
+  --maroon: #6E2B44;
+  --orange: #E4643D;
+  --yellow: #F3B94A;
+  --mint: #A9D9B7;
+  --blue: #6F9FD8;
+  --teal: #4FA3A0;
+  --red: #D95C48;
+  --font: 'Courier New', 'Consolas', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+html, body, #root { background: transparent; overflow: hidden; height: 100%; }
+body { font-family: var(--font); color: var(--maroon); }
+.scale-root { transform-origin: top left; width: max-content; height: max-content; }
