@@ -85,15 +85,28 @@ export default function App() {
         },
         onSettings: () => setView('settings'),
         onLang: lang => updateRef.current({ lang }),
-        onQuit: () => {
-          // 動作中のみ確認を挟む(停止中は即終了)
-          if (timerRef.current.isRunning) setView('confirm-quit');
-          else void getCurrentWindow().close();
-        },
+        // close() は CloseRequested を発火するので、動作中の確認は下のインターセプタに集約される
+        onQuit: () => void getCurrentWindow().close(),
       });
     };
     window.addEventListener('contextmenu', handler);
     return () => window.removeEventListener('contextmenu', handler);
+  }, []);
+
+  // どこから閉じられても(タスクバー含む)タイマー動作中は確認を挟む
+  useEffect(() => {
+    if (!inTauri) return;
+    const win = getCurrentWindow();
+    let un: (() => void) | undefined;
+    void win.onCloseRequested(e => {
+      if (timerRef.current.isRunning) {
+        e.preventDefault();
+        void win.unminimize();
+        void win.setFocus();
+        setView('confirm-quit');
+      }
+    }).then(f => { un = f; });
+    return () => un?.();
   }, []);
 
   // 起動時: 位置/最前面/サイズ復元 + 移動の監視
@@ -128,7 +141,7 @@ export default function App() {
     <div className="scale-root" style={{ transform: `scale(${liveScale ?? settings.scale})` }}>
       {view === 'confirm-quit' ? (
         <ConfirmQuit
-          onQuit={() => void getCurrentWindow().close()}
+          onQuit={() => void getCurrentWindow().destroy()}
           onCancel={() => setView('timer')}
         />
       ) : view === 'settings' ? (
