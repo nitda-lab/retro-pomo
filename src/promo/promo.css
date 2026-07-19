@@ -48,7 +48,7 @@
 /* 実使用スクリーンショット(最前面固定の訴求) */
 .promo-shot {
   margin: 16px auto 0;
-  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
 }
 .shot-win { width: 548px; box-shadow: 5px 5px 0 0 var(--maroon); }
 .shot-win .titlebar { background: var(--blue); }
@@ -62,3 +62,16 @@
   background: var(--yellow);
   clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
 }
+
+/* ---- X投稿用 16:9 (?promo=x) ---- */
+.promo-x { width: 1600px; height: 900px; }
+.promo-x-inner { width: 800px; height: 450px; padding: 16px 22px; }
+.promo-x .promo-title { font-size: 24px; letter-spacing: 4px; }
+.promo-x-main {
+  display: flex; gap: 14px; align-items: center; margin-top: 2px;
+}
+/* グリッドは0.8倍に縮小(transformはflowに効かないためwrapperで実寸を確保) */
+.promo-x-gridwrap { width: 438px; height: 330px; flex: none; }
+.promo-x-grid { transform: scale(0.8); transform-origin: top left; margin-top: 0; width: 548px; }
+.promo-x .promo-shot { flex: 1; margin: 0; gap: 10px; }
+.promo-x .shot-win { width: 100%; }
