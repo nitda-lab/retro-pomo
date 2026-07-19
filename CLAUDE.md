@@ -14,7 +14,7 @@
 - `src/timer/engine.ts` — タイムスタンプ基準の純粋タイマーロジック(テスト対象。UI 非依存)
 - `src/store/settings.ts` — localStorage 永続化 + sanitize(clamp: 分1-180 / scale 0.75-2)
 - `src/skins/Skin{A,B,C,D}.tsx` — 4スキン。共通 props は `src/skins/types.ts` の `SkinProps`
-- `src/window/scale.ts` — スキン別ウィンドウサイズ `BASE` と端ドラッグ→scale 変換
+- `src/window/scale.ts` — スキン別ウィンドウサイズ `BASE` と四隅グリップの等比リサイズ(`beginCornerResize`。ネイティブリサイズは `resizable: false` で無効)
 - `src/window/menu.ts` — ネイティブ右クリックメニュー(スキン/リセット/最前面/設定/最小化/終了)
 
 ## 重要な制約

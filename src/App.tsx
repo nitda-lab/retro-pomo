@@ -2,7 +2,10 @@ import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useTimer } from './hooks/useTimer';
 import { showContextMenu } from './window/menu';
-import { applyWindowForSkin, restorePosition, setWindowSize, SETTINGS_SIZE, watchWindow } from './window/scale';
+import {
+  applyWindowForSkin, beginCornerResize, CORNERS, restorePosition,
+  setWindowSize, SETTINGS_SIZE, watchWindowMove,
+} from './window/scale';
 import { loadSettings, saveSettings, type Settings, type Skin } from './store/settings';
 import type { SkinProps } from './skins/types';
 import { SkinA } from './skins/SkinA';
@@ -36,6 +39,8 @@ export default function App() {
     return o.skin ? { ...s, skin: o.skin } : s;
   });
   const [view, setView] = useState<'timer' | 'settings'>(() => devOverrides().view ?? 'timer');
+  /** 四隅ドラッグ中の一時スケール(確定時に settings.scale へ保存) */
+  const [liveScale, setLiveScale] = useState<number | null>(null);
   const timer = useTimer(settings);
   const SkinComp = skinComponents[settings.skin];
 
@@ -76,7 +81,7 @@ export default function App() {
     return () => window.removeEventListener('contextmenu', handler);
   }, []);
 
-  // 起動時: 位置/最前面/サイズ復元 + リサイズ・移動の監視
+  // 起動時: 位置/最前面/サイズ復元 + 移動の監視
   useEffect(() => {
     if (!inTauri) return;
     const s = settingsRef.current;
@@ -84,12 +89,7 @@ export default function App() {
     void applyWindowForSkin(s.skin, s.scale);
     void getCurrentWindow().setAlwaysOnTop(s.alwaysOnTop);
     let cleanup: (() => void) | undefined;
-    void watchWindow(
-      () => settingsRef.current.skin,
-      () => settingsRef.current.scale,
-      scale => updateRef.current({ scale }),
-      pos => updateRef.current({ pos }),
-    ).then(fn => { cleanup = fn; });
+    void watchWindowMove(pos => updateRef.current({ pos })).then(fn => { cleanup = fn; });
     return () => cleanup?.();
   }, []);
 
@@ -104,17 +104,40 @@ export default function App() {
   }, [settings.skin, view]);
 
   return (
-    <div className="scale-root" style={{ transform: `scale(${settings.scale})` }}>
+    <div className="scale-root" style={{ transform: `scale(${liveScale ?? settings.scale})` }}>
       {view === 'settings' ? (
         <SettingsView settings={settings} onSave={update} onClose={() => setView('timer')} />
       ) : (
-        <SkinComp
-          phase={timer.phase}
-          remainingSec={timer.remainingSec}
-          totalSec={timer.totalSec}
-          isRunning={timer.isRunning}
-          onToggle={timer.toggle}
-        />
+        <div className="widget-wrap">
+          <SkinComp
+            phase={timer.phase}
+            remainingSec={timer.remainingSec}
+            totalSec={timer.totalSec}
+            isRunning={timer.isRunning}
+            onToggle={timer.toggle}
+          />
+          {inTauri && CORNERS.map(c => (
+            <div
+              key={c.id}
+              className={`grip grip-${c.id}`}
+              onPointerDown={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                void beginCornerResize({
+                  e: e.nativeEvent,
+                  corner: c,
+                  skin: settingsRef.current.skin,
+                  startScale: settingsRef.current.scale,
+                  onScale: s => setLiveScale(s),
+                  onDone: s => {
+                    setLiveScale(null);
+                    updateRef.current({ scale: s });
+                  },
+                });
+              }}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
