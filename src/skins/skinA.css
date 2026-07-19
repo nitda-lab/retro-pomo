@@ -1,4 +1,4 @@
-.skin-a { position: relative; width: 280px; height: 230px; padding: 12px 18px 18px 12px; }
+.skin-a { position: relative; width: 260px; height: 212px; padding: 4px; }
 .skin-a .win {
   width: 250px;
   box-shadow: 5px 5px 0 0 var(--maroon);
@@ -43,10 +43,12 @@
 .skin-a .field .timer-digits { font-size: 26px; }
 .skin-a .btn-row { text-align: center; margin-bottom: 8px; }
 .skin-a .start { background: var(--blue); }
+/* タイマー経過に合わせて伸びるゲージ(widthはコンポーネントから指定) */
 .skin-a .strip {
-  height: 10px; width: 45%;
+  height: 10px;
   background: var(--mint);
   border-top: 2px solid var(--maroon);
   border-right: 2px solid var(--maroon);
   border-radius: 0 6px 0 0;
+  transition: width 0.9s linear;
 }

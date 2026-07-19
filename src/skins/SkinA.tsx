@@ -1,12 +1,11 @@
-import { Sparkle, TitleDots } from './shared';
+import { TitleDots } from './shared';
 import { fmt, type SkinProps } from './types';
 import './skinA.css';
 
-export function SkinA({ phase, remainingSec, isRunning, onToggle }: SkinProps) {
+export function SkinA({ phase, remainingSec, totalSec, isRunning, onToggle }: SkinProps) {
+  const progress = totalSec > 0 ? Math.max(4, (1 - remainingSec / totalSec) * 100) : 4;
   return (
     <div className="skin-a" data-tauri-drag-region>
-      <Sparkle style={{ top: 0, left: 34 }} delay={0} />
-      <Sparkle style={{ bottom: 4, right: 6 }} size={12} delay={0.9} />
       <div className="retro-win win" data-tauri-drag-region>
         <div className="titlebar" data-tauri-drag-region>
           <TitleDots />
@@ -23,7 +22,7 @@ export function SkinA({ phase, remainingSec, isRunning, onToggle }: SkinProps) {
             {isRunning ? 'PAUSE' : 'START'}
           </button>
         </div>
-        <div className="strip" />
+        <div className="strip" style={{ width: `${progress}%` }} />
       </div>
     </div>
   );

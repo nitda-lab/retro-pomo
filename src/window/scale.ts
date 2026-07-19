@@ -3,10 +3,10 @@ import type { Skin } from '../store/settings';
 
 /** 各スキンのルート要素CSSサイズ(scale=1)。skinX.css の width/height と一致必須 */
 export const BASE: Record<Skin, { w: number; h: number }> = {
-  A: { w: 280, h: 230 },
+  A: { w: 260, h: 212 },
   B: { w: 250, h: 192 },
   C: { w: 270, h: 96 },
-  D: { w: 170, h: 150 },
+  D: { w: 160, h: 142 },
 };
 
 /** 設定ビュー表示時のウィンドウサイズ(scale=1) */
