@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useTimer } from './hooks/useTimer';
 import { showContextMenu } from './window/menu';
+import { applyWindowForSkin, restorePosition, setWindowSize, SETTINGS_SIZE, watchWindow } from './window/scale';
 import { loadSettings, saveSettings, type Settings, type Skin } from './store/settings';
 import type { SkinProps } from './skins/types';
 import { SkinA } from './skins/SkinA';
@@ -54,6 +55,31 @@ export default function App() {
     window.addEventListener('contextmenu', handler);
     return () => window.removeEventListener('contextmenu', handler);
   }, []);
+
+  // 起動時: 位置/最前面/サイズ復元 + リサイズ・移動の監視
+  useEffect(() => {
+    const s = settingsRef.current;
+    if (s.pos) void restorePosition(s.pos);
+    void applyWindowForSkin(s.skin, s.scale);
+    void getCurrentWindow().setAlwaysOnTop(s.alwaysOnTop);
+    let cleanup: (() => void) | undefined;
+    void watchWindow(
+      () => settingsRef.current.skin,
+      () => settingsRef.current.scale,
+      scale => updateRef.current({ scale }),
+      pos => updateRef.current({ pos }),
+    ).then(fn => { cleanup = fn; });
+    return () => cleanup?.();
+  }, []);
+
+  // スキン変更・ビュー切替でウィンドウサイズ追随
+  useEffect(() => {
+    if (view === 'settings') {
+      void setWindowSize(SETTINGS_SIZE, settings.scale);
+    } else {
+      void applyWindowForSkin(settings.skin, settings.scale);
+    }
+  }, [settings.skin, view]);
 
   return (
     <div className="scale-root" style={{ transform: `scale(${settings.scale})` }}>
