@@ -69,6 +69,7 @@ export default function App() {
           void getCurrentWindow().setAlwaysOnTop(next);
         },
         onSettings: () => setView('settings'),
+        onLang: lang => updateRef.current({ lang }),
       });
     };
     window.addEventListener('contextmenu', handler);

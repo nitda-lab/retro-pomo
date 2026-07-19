@@ -1,4 +1,5 @@
 export type Skin = 'A' | 'B' | 'C' | 'D';
+export type Lang = 'ja' | 'en';
 
 export interface Settings {
   workMin: number;
@@ -8,10 +9,11 @@ export interface Settings {
   scale: number;
   alwaysOnTop: boolean;
   pos: { x: number; y: number } | null;
+  lang: Lang;
 }
 
 export const DEFAULTS: Settings = {
-  workMin: 25, breakMin: 5, sound: true, skin: 'A', scale: 1, alwaysOnTop: true, pos: null,
+  workMin: 25, breakMin: 5, sound: true, skin: 'A', scale: 1, alwaysOnTop: true, pos: null, lang: 'ja',
 };
 
 const KEY = 'retro-pomo:v1';
@@ -32,6 +34,7 @@ export function sanitize(raw: unknown): Settings {
     scale: clamp(num(r.scale, DEFAULTS.scale), 0.75, 2),
     alwaysOnTop: typeof r.alwaysOnTop === 'boolean' ? r.alwaysOnTop : DEFAULTS.alwaysOnTop,
     pos: pos && typeof pos.x === 'number' && typeof pos.y === 'number' ? { x: pos.x, y: pos.y } : null,
+    lang: r.lang === 'en' || r.lang === 'ja' ? r.lang : DEFAULTS.lang,
   };
 }
 
