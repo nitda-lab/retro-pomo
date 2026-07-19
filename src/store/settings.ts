@@ -5,6 +5,8 @@ export interface Settings {
   workMin: number;
   breakMin: number;
   sound: boolean;
+  /** Windows通知(オプトイン。トーストの見た目はOS標準) */
+  notify: boolean;
   skin: Skin;
   scale: number;
   alwaysOnTop: boolean;
@@ -13,7 +15,7 @@ export interface Settings {
 }
 
 export const DEFAULTS: Settings = {
-  workMin: 25, breakMin: 5, sound: true, skin: 'A', scale: 1, alwaysOnTop: true, pos: null, lang: 'ja',
+  workMin: 25, breakMin: 5, sound: true, notify: false, skin: 'A', scale: 1, alwaysOnTop: true, pos: null, lang: 'ja',
 };
 
 const KEY = 'retro-pomo:v1';
@@ -30,6 +32,7 @@ export function sanitize(raw: unknown): Settings {
     workMin: clamp(Math.round(num(r.workMin, DEFAULTS.workMin)), 1, 180),
     breakMin: clamp(Math.round(num(r.breakMin, DEFAULTS.breakMin)), 1, 180),
     sound: typeof r.sound === 'boolean' ? r.sound : DEFAULTS.sound,
+    notify: typeof r.notify === 'boolean' ? r.notify : DEFAULTS.notify,
     skin: SKINS.includes(r.skin as Skin) ? (r.skin as Skin) : DEFAULTS.skin,
     scale: clamp(num(r.scale, DEFAULTS.scale), 0.75, 2),
     alwaysOnTop: typeof r.alwaysOnTop === 'boolean' ? r.alwaysOnTop : DEFAULTS.alwaysOnTop,

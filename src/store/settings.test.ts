@@ -7,7 +7,7 @@ describe('sanitize', () => {
     expect(sanitize('garbage')).toEqual(DEFAULTS);
   });
   test('正常値は通す', () => {
-    const v = { workMin: 50, breakMin: 10, sound: false, skin: 'C', scale: 1.5, alwaysOnTop: false, pos: { x: 10, y: 20 }, lang: 'en' };
+    const v = { workMin: 50, breakMin: 10, sound: false, notify: true, skin: 'C', scale: 1.5, alwaysOnTop: false, pos: { x: 10, y: 20 }, lang: 'en' };
     expect(sanitize(v)).toEqual(v as never);
   });
   test('範囲外はclamp、不正skin/langはデフォルトへ', () => {

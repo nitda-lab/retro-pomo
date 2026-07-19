@@ -10,7 +10,7 @@ export const BASE: Record<Skin, { w: number; h: number }> = {
 };
 
 /** 設定ビュー表示時のウィンドウサイズ(scale=1) */
-export const SETTINGS_SIZE = { w: 250, h: 200 };
+export const SETTINGS_SIZE = { w: 250, h: 228 };
 
 /** 終了確認ビュー表示時のウィンドウサイズ(scale=1) */
 export const CONFIRM_SIZE = { w: 250, h: 130 };

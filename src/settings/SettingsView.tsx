@@ -11,10 +11,11 @@ export function SettingsView({ settings, onSave, onClose }: {
   const [workMin, setWorkMin] = useState(String(settings.workMin));
   const [breakMin, setBreakMin] = useState(String(settings.breakMin));
   const [sound, setSound] = useState(settings.sound);
+  const [notify, setNotify] = useState(settings.notify);
 
   const save = () => {
-    const v = sanitize({ ...settings, workMin: Number(workMin), breakMin: Number(breakMin), sound });
-    onSave({ workMin: v.workMin, breakMin: v.breakMin, sound: v.sound });
+    const v = sanitize({ ...settings, workMin: Number(workMin), breakMin: Number(breakMin), sound, notify });
+    onSave({ workMin: v.workMin, breakMin: v.breakMin, sound: v.sound, notify: v.notify });
     onClose();
   };
 
@@ -35,6 +36,11 @@ export function SettingsView({ settings, onSave, onClose }: {
           <div className="row">SOUND
             <span className="check" onClick={() => setSound(s => !s)}>
               {sound && <span className="mark" />}
+            </span>
+          </div>
+          <div className="row">NOTIFY
+            <span className="check" onClick={() => setNotify(n => !n)}>
+              {notify && <span className="mark" />}
             </span>
           </div>
         </div>
