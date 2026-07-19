@@ -9,7 +9,7 @@ export function SkinB({ phase, remainingSec, isRunning, onToggle }: SkinProps) {
           <span className="xbox">×</span>
         </div>
         <div className="msg" data-tauri-drag-region>
-          {phase === 'work' ? "DON'T THINK OF OTHER THINGS" : 'TEA TIME!'}
+          {phase === 'work' ? <>DON&apos;T THINK OF<br />OTHER THINGS</> : 'TEA TIME!'}
         </div>
         <div className="timer-digits" data-tauri-drag-region>{fmt(remainingSec)}</div>
         <div>
