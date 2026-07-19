@@ -63,6 +63,15 @@
   clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
 }
 
+/* ---- 4:5 縦型・ショット上/スキン下 (?promo=45) ---- */
+.promo-45 { width: 1240px; height: 1550px; }
+.promo-45-inner { width: 620px; height: 775px; padding: 16px 22px; }
+.promo-45 .promo-title { font-size: 26px; }
+.promo-45 .promo-shot { margin: 8px auto 12px; gap: 10px; }
+.promo-45 .shot-win { width: 420px; }
+.promo-45-gridwrap { width: 438px; height: 330px; margin: 0 auto; }
+.promo-45-grid { transform: scale(0.8); transform-origin: top left; width: 548px; margin-top: 0; }
+
 /* ---- X投稿用 16:9 (?promo=x) ---- */
 .promo-x { width: 1600px; height: 900px; }
 .promo-x-inner { width: 800px; height: 450px; padding: 16px 22px; }

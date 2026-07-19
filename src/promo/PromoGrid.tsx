@@ -80,6 +80,29 @@ export function PromoGrid() {
   );
 }
 
+/** 宣伝画像用(4:5・ショット上/スキン一覧下): ブラウザ ?promo=45 */
+export function Promo45() {
+  return (
+    <div className="promo promo-45">
+      <div className="promo-inner promo-45-inner">
+        <span className="promo-star" style={{ top: 14, right: 26, width: 20, height: 20 }} />
+        <span className="promo-star" style={{ top: 400, left: 10, width: 12, height: 12 }} />
+        <span className="promo-star" style={{ bottom: 18, right: 60, width: 14, height: 14 }} />
+        <div className="promo-head">
+          <span className="promo-title">RETRO-POMO</span>
+          <span className="promo-sub">pomodoro timer for your desktop</span>
+        </div>
+        <AlwaysOnTopShot />
+        <div className="promo-45-gridwrap">
+          <div className="promo-grid promo-45-grid">
+            <SkinCells />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** 宣伝画像用(16:9・X投稿向け、クロップされない): ブラウザ ?promo=x */
 export function PromoX() {
   return (

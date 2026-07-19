@@ -13,7 +13,7 @@ import { SkinB } from './skins/SkinB';
 import { SkinC } from './skins/SkinC';
 import { SkinD } from './skins/SkinD';
 import { SettingsView } from './settings/SettingsView';
-import { PromoGrid, PromoX } from './promo/PromoGrid';
+import { Promo45, PromoGrid, PromoX } from './promo/PromoGrid';
 
 export const skinComponents: Record<Skin, ComponentType<SkinProps>> = {
   A: SkinA, B: SkinB, C: SkinC, D: SkinD,
@@ -110,6 +110,7 @@ export default function App() {
   }, [settings.skin, view]);
 
   if (promoMode === 'x') return <PromoX />;
+  if (promoMode === '45') return <Promo45 />;
   if (promoMode === '1') return <PromoGrid />;
 
   return (
