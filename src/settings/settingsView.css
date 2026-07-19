@@ -1,0 +1,25 @@
+.settings { position: relative; width: 250px; padding: 2px 8px 8px 2px; }
+.settings .win { width: 240px; box-shadow: 4px 4px 0 0 var(--maroon); }
+.settings .titlebar { background: var(--blue); }
+.settings .rows { padding: 14px 18px; display: grid; gap: 10px; }
+.settings .row { display: flex; align-items: center; justify-content: space-between; font-size: 11px; font-weight: bold; letter-spacing: 1px; }
+.settings input[type="number"] {
+  width: 64px; padding: 4px 8px;
+  border: 2px solid var(--maroon); border-radius: 999px;
+  background: var(--paper); color: var(--maroon);
+  font-family: var(--font); font-weight: bold; font-size: 12px;
+  text-align: center; outline: none;
+}
+.settings .check {
+  width: 18px; height: 18px;
+  border: 2px solid var(--maroon); border-radius: 4px;
+  background: var(--paper);
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.settings .check .mark {
+  width: 10px; height: 10px; border-radius: 2px;
+  background: var(--maroon);
+}
+.settings .btns { display: flex; gap: 10px; justify-content: center; padding-bottom: 14px; }
+.settings .save { background: var(--blue); }

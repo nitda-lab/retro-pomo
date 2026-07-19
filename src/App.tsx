@@ -6,6 +6,7 @@ import { SkinA } from './skins/SkinA';
 import { SkinB } from './skins/SkinB';
 import { SkinC } from './skins/SkinC';
 import { SkinD } from './skins/SkinD';
+import { SettingsView } from './settings/SettingsView';
 
 export const skinComponents: Record<Skin, ComponentType<SkinProps>> = {
   A: SkinA, B: SkinB, C: SkinC, D: SkinD,
@@ -13,6 +14,7 @@ export const skinComponents: Record<Skin, ComponentType<SkinProps>> = {
 
 export default function App() {
   const [settings, setSettings] = useState<Settings>(loadSettings);
+  const [view, setView] = useState<'timer' | 'settings'>('timer');
   const timer = useTimer(settings);
   const SkinComp = skinComponents[settings.skin];
 
@@ -23,17 +25,20 @@ export default function App() {
       return next;
     });
   };
-  void update; // Task 9/10 で配線
 
   return (
     <div className="scale-root" style={{ transform: `scale(${settings.scale})` }}>
-      <SkinComp
-        phase={timer.phase}
-        remainingSec={timer.remainingSec}
-        totalSec={timer.totalSec}
-        isRunning={timer.isRunning}
-        onToggle={timer.toggle}
-      />
+      {view === 'settings' ? (
+        <SettingsView settings={settings} onSave={update} onClose={() => setView('timer')} />
+      ) : (
+        <SkinComp
+          phase={timer.phase}
+          remainingSec={timer.remainingSec}
+          totalSec={timer.totalSec}
+          isRunning={timer.isRunning}
+          onToggle={timer.toggle}
+        />
+      )}
     </div>
   );
 }
