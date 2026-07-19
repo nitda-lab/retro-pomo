@@ -1,4 +1,4 @@
-.skin-c { position: relative; width: 270px; height: 100px; padding: 2px 8px 8px 2px; }
+.skin-c { position: relative; width: 270px; height: 96px; padding: 2px 8px 8px 2px; }
 .skin-c .win { width: 260px; box-shadow: 4px 4px 0 0 var(--maroon); cursor: pointer; }
 .skin-c .titlebar { background: var(--mint); cursor: default; }
 .skin-c .body { display: flex; align-items: center; gap: 12px; padding: 12px 16px 6px; }

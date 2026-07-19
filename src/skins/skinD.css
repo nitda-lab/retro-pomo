@@ -1,4 +1,4 @@
-.skin-d { position: relative; width: 170px; height: 190px; padding: 8px 12px 12px 4px; }
+.skin-d { position: relative; width: 170px; height: 150px; padding: 8px 12px 12px 4px; }
 .skin-d .win { width: 150px; box-shadow: 4px 4px 0 0 var(--maroon); cursor: pointer; }
 .skin-d .titlebar { background: var(--yellow); justify-content: center; cursor: default; }
 .skin-d .titlebar-text { margin: 0; }

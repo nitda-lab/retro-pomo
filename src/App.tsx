@@ -15,9 +15,27 @@ export const skinComponents: Record<Skin, ComponentType<SkinProps>> = {
   A: SkinA, B: SkinB, C: SkinC, D: SkinD,
 };
 
+/** Tauri外(ブラウザでのUI確認)ではウィンドウ操作をスキップ */
+const inTauri = typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
+
+/** ブラウザ確認用: ?skin=B / ?view=settings で初期表示を切替(Tauri内では無視) */
+function devOverrides(): { skin?: Skin; view?: 'settings' } {
+  if (inTauri) return {};
+  const p = new URLSearchParams(location.search);
+  const skin = p.get('skin');
+  return {
+    skin: skin && ['A', 'B', 'C', 'D'].includes(skin) ? (skin as Skin) : undefined,
+    view: p.get('view') === 'settings' ? 'settings' : undefined,
+  };
+}
+
 export default function App() {
-  const [settings, setSettings] = useState<Settings>(loadSettings);
-  const [view, setView] = useState<'timer' | 'settings'>('timer');
+  const [settings, setSettings] = useState<Settings>(() => {
+    const s = loadSettings();
+    const o = devOverrides();
+    return o.skin ? { ...s, skin: o.skin } : s;
+  });
+  const [view, setView] = useState<'timer' | 'settings'>(() => devOverrides().view ?? 'timer');
   const timer = useTimer(settings);
   const SkinComp = skinComponents[settings.skin];
 
@@ -38,6 +56,7 @@ export default function App() {
   updateRef.current = update;
 
   useEffect(() => {
+    if (!inTauri) return;
     const handler = (e: MouseEvent) => {
       e.preventDefault();
       void showContextMenu({
@@ -58,6 +77,7 @@ export default function App() {
 
   // 起動時: 位置/最前面/サイズ復元 + リサイズ・移動の監視
   useEffect(() => {
+    if (!inTauri) return;
     const s = settingsRef.current;
     if (s.pos) void restorePosition(s.pos);
     void applyWindowForSkin(s.skin, s.scale);
@@ -74,6 +94,7 @@ export default function App() {
 
   // スキン変更・ビュー切替でウィンドウサイズ追随
   useEffect(() => {
+    if (!inTauri) return;
     if (view === 'settings') {
       void setWindowSize(SETTINGS_SIZE, settings.scale);
     } else {
